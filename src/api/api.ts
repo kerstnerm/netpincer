@@ -10,7 +10,13 @@ const Food = {
     getFoods: () => axiosInstance.get<IFood[]>(`/api/food`),
     getFood: (id: string) => axiosInstance.get<IFood>(`/api/food/${id}`),
     getCategories: () => axiosInstance.get<{name: string, id: number}[]>(`/api/food/categories`),
-    createFood : (param: ICreateFood) => axiosInstance.post<IFood>(`/api/food/create`, param)
+    createFood : (param: ICreateFood) => axiosInstance.post<IFood>(`/api/food/create`, param),
+    updateFood: (id: string, param2: {
+        foodCategoryId: number;
+        price: number;
+        name: string;
+        description: string
+    }) => axiosInstance.put<IFood>(`/api/food/${id}`, param2),
 }
 
 const Restaurant = {

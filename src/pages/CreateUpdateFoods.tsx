@@ -1,9 +1,8 @@
-import {Button, Card, Checkbox, Group, NativeSelect, NumberInput, TextInput} from "@mantine/core";
+import {Button, Card, Group, NativeSelect, NumberInput, TextInput} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useEffect, useState} from "react";
 import api from "../api/api.ts";
 import {IRestaurant} from "../interfaces/IRestaurant.ts";
-import {IFood} from "../interfaces/IFood.ts";
 import {useParams} from "react-router-dom";
 
 interface ICreateUpdateFoods {
@@ -55,15 +54,27 @@ const CreateUpdateFoods = ({isCreate}: ICreateUpdateFoods) => {
     return <>
         <Card>
             <form onSubmit={form.onSubmit((values) => {
-                api.Food.createFood(
-                    {
-                        name: values.name,
-                        description: values.description,
-                        price: values.price,
-                        foodCategoryId: Number(values.foodCategoryId),
-                        restaurantId: Number(values.restaurantId)
-                    }
-                ).then();
+                if (isCreate) {
+                    api.Food.createFood(
+                        {
+                            name: values.name,
+                            description: values.description,
+                            price: values.price,
+                            foodCategoryId: Number(values.foodCategoryId),
+                            restaurantId: Number(values.restaurantId)
+                        }
+                    ).then();
+                } else {
+                    api.Food.updateFood(String(id),
+                        {
+                            name: values.name,
+                            description: values.description,
+                            price: values.price,
+                            foodCategoryId: Number(values.foodCategoryId)
+                        }
+                    ).then();
+                }
+
             })}>
                 <TextInput
                     withAsterisk
